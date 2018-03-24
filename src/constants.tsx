@@ -1,0 +1,1 @@
+export const CloudName = 'dpuu8grdy';

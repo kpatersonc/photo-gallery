@@ -2,6 +2,7 @@ import * as React from 'react';
 import '../../App.css';
 import { Photo } from '../photo/photo';
 import Upload from '../photo/upload';
+import { getAllImages } from '../../global/utils';
 
 interface GalleryState {
     files: string[];
@@ -13,6 +14,16 @@ class Gallery extends React.Component<{}, GalleryState> {
         this.state = {
             files: []
         };
+    }
+
+    componentWillMount() {
+
+    }
+
+    getExistingFiles = () => {
+        getAllImages()
+        .then(res => this.setState({ files: res.express }))
+        .catch(err => console.log(err));
     }
 
     onUploadEvent = (id: string) => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../../App.css';
 import { Image } from 'cloudinary-react';
-import * as constants from '../../constants';
+import * as constants from '../../global/constants'
 // import { Cloudinary } from 'cloudinary-core';
 // const cloudinaryCore = new Cloudinary({cloud_name: 'demo'});
 

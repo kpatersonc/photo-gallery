@@ -1,14 +1,15 @@
 import * as React from 'react';
 import Dropzone from 'react-dropzone';
 // import * as request from 'superagent';
-import * as constants from '../../constants';
+import * as constants from '../../global/constants';
+import  ImageContract  from '../gallery/gallery';
 // import { Cloudinary } from 'cloudinary-core';
 
 const cloudName = constants.CloudName;
 const unsignedUploadPreset = 'mam6b9tp';
 
-interface UploadProps { // Don't think it needs to be exported but typescript wont shut up about it being unused
-    onUploadComplete: (id: string) => void;
+interface UploadProps { 
+    onUploadComplete: (id: ImageContract) => void;
 }
 class Upload extends React.Component<UploadProps, {}> {
     constructor(props: UploadProps, state: {}) {
@@ -51,7 +52,7 @@ class Upload extends React.Component<UploadProps, {}> {
             xhr.send(fd);
     }
 
-    onUploadSuccess = (id: string) => {
+    onUploadSuccess = (id: ImageContract) => {
         this.props.onUploadComplete(id);
     }   
 

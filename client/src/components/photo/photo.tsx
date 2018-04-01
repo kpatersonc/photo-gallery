@@ -1,32 +1,14 @@
 import * as React from 'react';
 import '../../App.css';
 import { Image } from 'cloudinary-react';
-import * as constants from '../../global/constants'
-// import { Cloudinary } from 'cloudinary-core';
-// const cloudinaryCore = new Cloudinary({cloud_name: 'demo'});
-
-// interface PhotoOptions {
-//     width: number;
-//     height: number;
-// }
-
-// {this.props.publidIds.map((id, i) => 
-//     <Image 
-//         cloudName={constants.CloudName} 
-//         publicId={id} 
-//         width="300" 
-//         crop="scale" 
-//         height="300" 
-//         key={i} 
-//     />
-// )}
+import * as constants from '../../global/constants';
 
 interface PhotoProps {
     photoId: string;
 }
 
 export const Photo: React.StatelessComponent<PhotoProps> = (photoId) => {
-    return (
+    return (        
         <div>
             <Image
                 cloudName={constants.CloudName}

@@ -7,10 +7,12 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
+    "cloudinary": "^1.11.0",
     "cors": "^2.8.4",
     "express": "^4.16.2"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0"
+    "concurrently": "^3.5.0",
+    "cloudinary": "^1.11.0"
   }
 }

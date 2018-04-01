@@ -8,4 +8,4 @@ export const getAllImages = async () => {
     }
 
     return body;
-}
+};

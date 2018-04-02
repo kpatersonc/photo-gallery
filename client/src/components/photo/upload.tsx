@@ -6,22 +6,34 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import { Cloudinary } from 'cloudinary-core';
 import { uploadFile } from '../../global/utils';
 
+interface UploadState {
+    modal: boolean;
+}
 interface UploadProps {
     onUploadComplete: (id: CloudinaryImage) => void;
     className: string;
     modal: boolean;
 }
-class Upload extends React.Component<UploadProps, {}> {
-    constructor(props: UploadProps, state: {}) {
-        super(props);
-    }
+class Upload extends React.Component<UploadProps, UploadState> {
+    constructor(props: UploadProps, state: UploadState) {
+        super(props, state);
 
+        this.state = ({
+            modal: this.props.modal
+        });
+
+    }
     toggle = () => {
         this.setState({
-            modal: !this.props.modal
+            modal: !this.state.modal
         });
     }
 
+    componentWillReceiveProps() {
+        this.setState({
+            modal: this.props.modal
+        });
+    }
     onUploadSuccess = (image: CloudinaryImage) => {
         this.props.onUploadComplete(image);
     }
@@ -36,7 +48,7 @@ class Upload extends React.Component<UploadProps, {}> {
         return (
             <div>
                 <div>
-                    <Modal isOpen={this.props.modal} toggle={this.toggle} className={this.props.className}>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
                         <ModalBody>
                             <div className="file-upload">

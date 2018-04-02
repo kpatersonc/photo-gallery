@@ -8,7 +8,7 @@ interface PhotoProps {
 }
 
 export const Photo: React.StatelessComponent<PhotoProps> = (photoId) => {
-    return (        
+    return (
         <div>
             <Image
                 cloudName={constants.CloudName}

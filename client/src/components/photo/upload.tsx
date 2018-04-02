@@ -1,78 +1,61 @@
 import * as React from 'react';
 import Dropzone from 'react-dropzone';
 // import * as request from 'superagent';
-import * as constants from '../../global/constants';
-import  ImageContract  from '../gallery/gallery';
+import { CloudinaryImage } from '../gallery/gallery';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import { Cloudinary } from 'cloudinary-core';
+import { uploadFile } from '../../global/utils';
 
-const cloudName = constants.CloudName;
-const unsignedUploadPreset = 'mam6b9tp';
-
-interface UploadProps { 
-    onUploadComplete: (id: ImageContract) => void;
+interface UploadProps {
+    onUploadComplete: (id: CloudinaryImage) => void;
+    className: string;
+    modal: boolean;
 }
 class Upload extends React.Component<UploadProps, {}> {
     constructor(props: UploadProps, state: {}) {
-        super(props, state);
+        super(props);
     }
 
-    uploadFile = (file: Blob) => {
-            var url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
-            var xhr = new XMLHttpRequest();
-            var fd = new FormData();
-            xhr.open('POST', url, true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            
-            // Update progress (can be used to show progress indicator)
-            xhr.upload.addEventListener('progress', function(e: ProgressEvent) {
-          
-              console.log(`fileuploadprogress data.loaded: ${e.loaded},
-            data.total: ${e.total}`);
-            });
-          
-            xhr.onreadystatechange = (e: Event) => {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                // File uploaded successfully
-                var response = JSON.parse(xhr.responseText);
-                // https://res.cloudinary.com/cloudName/image/upload/v1483481128/public_id.jpg
-                var url2 = response.secure_url;
-                // Create a thumbnail of the uploaded image, with 150px width
-                var tokens = url2.split('/');
-                tokens.splice(-2, 0, 'w_150,c_scale');
-                var img = new Image(); // HTML5 Constructor
-                img.src = tokens.join('/');
-                img.alt = response.public_id;
-                this.onUploadSuccess(response.public_id);
-               }
-            };
-          
-            fd.append('upload_preset', unsignedUploadPreset);
-            fd.append('tags', 'browser_upload'); // Optional - add tag for image admin in Cloudinary
-            fd.append('file', file);
-            xhr.send(fd);
+    toggle = () => {
+        this.setState({
+            modal: !this.props.modal
+        });
     }
 
-    onUploadSuccess = (id: ImageContract) => {
-        this.props.onUploadComplete(id);
-    }   
+    onUploadSuccess = (image: CloudinaryImage) => {
+        this.props.onUploadComplete(image);
+    }
 
     onDrop = (files: Blob[]) => {
         files.forEach((file) => {
-            this.uploadFile(file);
+            uploadFile(file);
         });
     }
-    
+
     render() {
         return (
-                <div className="file-upload">
-                    <Dropzone
-                        onDrop={this.onDrop}
-                        multiple={true}
-                        accept="image/*"
-                    >
-                        <div>Drop an image or click to select a file to upload.</div>
-                    </Dropzone>
+            <div>
+                <div>
+                    <Modal isOpen={this.props.modal} toggle={this.toggle} className={this.props.className}>
+                        <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                        <ModalBody>
+                            <div className="file-upload">
+                                <Dropzone
+                                    onDrop={this.onDrop}
+                                    multiple={true}
+                                    accept="image/*"
+                                >
+                                    <div>Drop an image or click to select a file to upload.</div>
+                                </Dropzone>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+                            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
+            </div>
         );
     }
 }

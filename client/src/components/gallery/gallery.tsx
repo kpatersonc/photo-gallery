@@ -1,14 +1,13 @@
 import * as React from 'react';
 import '../../App.css';
 import { Photo } from '../photo/photo';
-// import Upload from '../photo/upload';
 import { getAllImages } from '../../global/utils';
 
-export interface Image {
+export interface CloudinaryImage {
     public_id: string;
 }
 interface GalleryState {
-    files: Image[];
+    files: CloudinaryImage[];
 }
 
 class Gallery extends React.Component<{}, GalleryState> {
@@ -29,9 +28,9 @@ class Gallery extends React.Component<{}, GalleryState> {
         .catch(err => console.log(err));
     }
 
-    onUploadEvent = (id: Image) => {
-        this.setState(prevState => ({
-            files: prevState.files.concat(id)
+    onUploadEvent = (image: CloudinaryImage) => {
+        this.setState((prevState) => ({
+            files: prevState.files.concat(image)
             }
         ));
     }
@@ -43,22 +42,12 @@ class Gallery extends React.Component<{}, GalleryState> {
                 key={i}
             />
         ));
-        // this.state.files.forEach((file) => {
-        //     return (
-        //         <Photo photoId={file.public_id} />
-        //     );
-            
-        // });
     }
-// <Upload onUploadComplete={this.onUploadEvent} />
     render() {
+        const photos = this.displayPhoto();
         return (
-            <div className="gallery-container">
-                <div className="upload-container">
-                A
-                </div>               
-                {this.displayPhoto()}
-
+            <div className="gallery-container">           
+                {photos}
             </div>
         );
     }

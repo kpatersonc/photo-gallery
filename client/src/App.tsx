@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import Navigationbar from './components/navbar/navbar';
 import Gallery from './components/gallery/gallery';
 // import { Cloudinary } from 'cloudinary-core';
 import './App.css';
@@ -27,6 +27,7 @@ export default class App extends React.Component<{}, AppState> {
   render() {
     return (
       <div>
+          <Navigationbar />
           <Gallery />
       </div>
     );
